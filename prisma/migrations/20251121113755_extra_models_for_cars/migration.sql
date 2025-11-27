@@ -1,0 +1,37 @@
+-- CreateTable
+CREATE TABLE `Cars` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `category` VARCHAR(191) NOT NULL,
+    `brand` VARCHAR(191) NOT NULL,
+    `make` VARCHAR(191) NOT NULL,
+    `model` VARCHAR(191) NOT NULL,
+    `year` INTEGER NOT NULL,
+    `trimLevel` VARCHAR(191) NOT NULL,
+    `generation` VARCHAR(191) NOT NULL,
+    `price` DOUBLE NOT NULL,
+    `fuelType` VARCHAR(191) NOT NULL,
+    `used` BOOLEAN NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `soldOn` DATETIME(3) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Category` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Brand` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `logo` VARCHAR(191) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
