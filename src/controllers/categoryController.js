@@ -114,11 +114,11 @@ export const deleteRecord = async (req, res) => {
             where: { id },
         });
 
-        res.status(200).json({ message: `Kategori nr. ${id} er slettet` });
+        res.status(200).json({ message: `Kategori nr. ${id} er slettet`, deletedId: id });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Kunne ikke slette kategorien' });
-    }
+    };
 };
 
 /* Copyright 2025, Marie-Pierre Lessard */

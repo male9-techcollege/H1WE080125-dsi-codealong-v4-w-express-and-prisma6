@@ -123,7 +123,7 @@ export const getRecord = async (req, res) => {
     const id = Number(req.params.id);
 
     if (!id) {
-        return res.status(400).json({ error: 'Id har ingen værdi' });
+        return res.status(400).json({ error: 'Id har ingen værdi.' });
     };
 
     try {
@@ -201,16 +201,36 @@ export const deleteRecord = async (req, res) => {
 
     const id = Number(req.params.id)
 
+    if (!id) {
+        return res.status(400).json({ error: "Id har ingen værdi." });
+    };
+
     try {
+        /* Moodle instructions said the following, and it was sufficient to make it work.
+        Codealong added const data = in front of await. 
         await prisma.car.delete({
             where: { id },
         });
 
         res.status(200).json({ message: `Bil nr. ${id} er slettet` });
+        */
+        await prisma.car.delete({
+            where: { id },
+        });
+
+        res.status(200).json({ message: `Bil nr. ${id} er slettet`, deletedId: id });
+        /* Security issues:
+        It is highly advisable to ask the user for a confirmation before deleting anything,
+        but this API is basic.
+
+        In many situations, deletions should only be performed by authorised user(s), 
+        so an authentification step is also missing here.
+        */
+ 
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Kunne ikke slette bilen' });
-    }
+    };
 };
 
 /* Copyright 2025, Marie-Pierre Lessard */
