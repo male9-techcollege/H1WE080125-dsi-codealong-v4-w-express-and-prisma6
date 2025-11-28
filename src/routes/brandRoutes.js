@@ -1,6 +1,6 @@
 /* Additional exercise in v4 */
 import { Router } from "express";
-import { createRecord, getRecords, getRecord, updateRecord } from "../controllers/brandController.js";
+import { createRecord, getRecords, getRecord, updateRecord, deleteRecord } from "../controllers/brandController.js";
 
 const router = Router();
 
@@ -19,6 +19,8 @@ router.get("/:id", getRecord);
 
 router.put('/:id', updateRecord);
 
+router.delete("/:id", deleteRecord);
+ 
 export { router as brandRouter };
 
 /* Copyright 2025, Marie-Pierre Lessard */

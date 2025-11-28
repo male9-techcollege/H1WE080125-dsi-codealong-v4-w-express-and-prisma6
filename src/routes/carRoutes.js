@@ -1,14 +1,6 @@
-/* TO DO in various routes files, CRUD:
-DONE: router.get("/"", getRecords);
-DONE: router.get("/:id", getRecord);
-DONE: router.post("/", createRecord);
-DONE: router.put("/:id", updateRecord);
-router.delete("/:id", deleteRecord);
-*/
-
 /* Named import from express */
 import { Router } from "express";
-import { createRecord, getRecords, getRecord, updateRecord } from "../controllers/carController.js";
+import { createRecord, getRecords, getRecord, updateRecord, deleteRecord } from "../controllers/carController.js";
 
 /* The purpose of the following is to avoid repetition on sites with lots of pages. */
 const router = Router();
@@ -46,6 +38,8 @@ router.get("/:id", (req, res) => {
 router.get("/:id", getRecord);
 
 router.put('/:id', updateRecord);
+
+router.delete("/:id", deleteRecord);
 
 /* Function expression "router" exported as an alias (carRouter). 
 Other version on Moodle:

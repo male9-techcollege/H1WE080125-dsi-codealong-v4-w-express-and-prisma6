@@ -107,4 +107,22 @@ export const updateRecord = async (req, res) => {
     };
 };
 
+export const deleteRecord = async (req, res) => {
+    //const id = Number(req.params.id)
+    //console.log(id);
+
+    const id = Number(req.params.id)
+
+    try {
+        await prisma.brand.delete({
+            where: { id },
+        });
+
+        res.status(200).json({ message: `Mærke nr. ${id} er slettet` });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Kunne ikke slette mærket' });
+    }
+};
+
 /* Copyright 2025, Marie-Pierre Lessard */

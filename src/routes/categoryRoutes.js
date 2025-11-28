@@ -1,6 +1,6 @@
 /* Additional exercise in v4 */
 import { Router } from "express";
-import { createRecord, getRecords, getRecord, updateRecord } from "../controllers/categoryController.js";
+import { createRecord, getRecords, getRecord, updateRecord, deleteRecord } from "../controllers/categoryController.js";
 
 const router = Router();
 
@@ -18,6 +18,8 @@ router.get("/:id", (req, res) => {
 router.get("/:id", getRecord);
 
 router.put('/:id', updateRecord);
+
+router.delete("/:id", deleteRecord);
 
 export { router as categoryRouter };
 

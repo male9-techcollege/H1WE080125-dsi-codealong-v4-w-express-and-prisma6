@@ -157,7 +157,7 @@ export const updateRecord = async (req, res) => {
     // Logger url parametre: console.log(req.params)
     // Logger form body: console.log(req.body)
 
-    const id = Number(req.params.id); 
+    const id = Number(req.params.id);
     const { category, brand, make, model, year, trimLevel, generation, price, fuelType, used, createdOn, updatedOn } = req.body; // Deconstruerer form body objektet
 
     if (!id) {
@@ -193,6 +193,24 @@ export const updateRecord = async (req, res) => {
         console.log(error);
         return res.status(500).json({ error: 'Noget gik galt i serveren' });
     };
+};
+
+export const deleteRecord = async (req, res) => {
+    //const id = Number(req.params.id)
+    //console.log(id);
+
+    const id = Number(req.params.id)
+
+    try {
+        await prisma.car.delete({
+            where: { id },
+        });
+
+        res.status(200).json({ message: `Bil nr. ${id} er slettet` });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Kunne ikke slette bilen' });
+    }
 };
 
 /* Copyright 2025, Marie-Pierre Lessard */
