@@ -1,17 +1,21 @@
 /* TO DO in various routes files, CRUD:
 DONE: router.get("/"", getRecords);
-DONE OR PARTLY DONE: router.get("/:id", getRecord);
+DONE: router.get("/:id", getRecord);
 DONE: router.post("/", createRecord);
-router.put("/:id", updateRecord);
+DONE: router.put("/:id", updateRecord);
 router.delete("/:id", deleteRecord);
 */
 
 /* Named import from express */
 import { Router } from "express";
-import { getRecords, getRecord, createRecord } from "../controllers/carController.js";
+import { createRecord, getRecords, getRecord, updateRecord } from "../controllers/carController.js";
 
 /* The purpose of the following is to avoid repetition on sites with lots of pages. */
 const router = Router();
+
+/* Since this uses the method POST instead of GET, there is no problem reusing the base URL for cars. 
+(We first learned about GET, but the exercises follow the letters in CRUD.) */
+router.post("/", createRecord);
 
 /* Up to v3, the codealong said:
 router.get("/", (req, res) => {
@@ -41,8 +45,7 @@ router.get("/:id", (req, res) => {
 */
 router.get("/:id", getRecord);
 
-/* Since this uses the method POST instead of GET, there is no problem reusing the base URL for cars. */
-router.post("/", createRecord);
+router.put('/:id', updateRecord);
 
 /* Function expression "router" exported as an alias (carRouter). 
 Other version on Moodle:

@@ -1,5 +1,29 @@
 import { prisma } from "../../prisma.js";
 
+export const createRecord = async (req, res) => {
+    console.log(req.body);
+
+    const { name, logo } = req.body;
+
+    if (!name || !logo) {
+        return res.status(400).json({ error: "Alle felter skal udfyldes." });
+    };
+
+    try {
+        const data = await prisma.brand.create({
+            data: {
+                name,
+                logo
+                /* I left out createdOn and updatedOn. */
+            }
+        });
+        return res.status(201).json(data);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Noget gik galt på serveren." });
+    };
+};
+
 export const getRecords = async (req, res) => {
     try {
         /* "prisma.car.findMany() bruges til at hente alle rækker fra tabellen Car."
@@ -7,8 +31,9 @@ export const getRecords = async (req, res) => {
         const data = await prisma.brand.findMany({
             select: {
                 id: true,
-                name: true
-                /* 1 field was left out. */
+                name: true,
+                logo: true
+                /* I left out createdOn and updatedOn. */
             },
             orderBy: {
                 name: "asc"
@@ -36,8 +61,9 @@ export const getRecord = async (req, res) => {
             },
             select: {
                 id: true,
-                name: true
-                /* 1 field was left out. */
+                name: true,
+                logo: true
+                /* I left out createdOn and updatedOn. */
             }
         });
         return res.status(200).json(data);
@@ -47,26 +73,37 @@ export const getRecord = async (req, res) => {
     }
 };
 
-export const createRecord = async (req, res) => {
-    console.log(req.body);
+export const updateRecord = async (req, res) => {
+    // Logger url parametre: console.log(req.params)
+    // Logger form body: console.log(req.body)
 
-    const { name, logo } = req.body;
+    const id = Number(req.params.id);
+    const { name, logo, createdOn, updatedOn } = req.body; // Deconstruerer form body objektet
 
-    if (!name || !logo) {
-        return res.status(400).json({ error: "Alle felter skal udfyldes." });
+    if (!id) {
+        return res.status(400).json({ error: 'Id skal have en gyldig værdi' });
+    };
+
+    if (!name || !logo || !createdOn || !updatedOn) {
+        return res.status(400).json({ error: 'Alle felter skal udfyldes' });
     };
 
     try {
-        const data = await prisma.brand.create({
+        const data = await prisma.brand.update({
+            where: { id },
             data: {
                 name,
-                logo
+                logo,
+                createdOn: new Date(createdOn),
+                updatedOn: new Date(updatedOn)
             }
         });
+
         return res.status(201).json(data);
+
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: "Noget gik galt på serveren." });
+        console.log(error);
+        return res.status(500).json({ error: 'Noget gik galt i serveren' });
     };
 };
 

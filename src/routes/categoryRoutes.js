@@ -1,8 +1,10 @@
 /* Additional exercise in v4 */
 import { Router } from "express";
-import { getRecords, getRecord, createRecord } from "../controllers/categoryController.js";
+import { createRecord, getRecords, getRecord, updateRecord } from "../controllers/categoryController.js";
 
 const router = Router();
+
+router.post("/", createRecord);
 
 router.get("/", getRecords);
 
@@ -15,7 +17,7 @@ router.get("/:id", (req, res) => {
  */
 router.get("/:id", getRecord);
 
-router.post("/", createRecord);
+router.put('/:id', updateRecord);
 
 export { router as categoryRouter };
 

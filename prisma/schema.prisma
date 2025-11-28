@@ -44,7 +44,7 @@ model User {
   name  String 
   password  String
   email String  @unique 
-  createdAt DateTime @default(now())
+  createdOn DateTime @default(now())
 
   /* Heinz said we could use this to give another name to the table than the word after model 
   (preferably not Users or Categories, but sth more telling). 
@@ -139,8 +139,8 @@ model Car {
   price  Float
   fuelType  String
   used  Boolean
-  createdAt DateTime @default(now())
-  soldOn  DateTime
+  createdOn  DateTime @default(now())
+  updatedOn  DateTime @default(now())
 
   //@@map("cars")
 }
@@ -148,7 +148,8 @@ model Car {
 model Category {
   id   Int    @id @default(autoincrement())
   name  String 
-  createdAt DateTime @default(now())
+  createdOn  DateTime @default(now())
+  updatedOn  DateTime @default(now())
 
   //@@map("categories")
 }
@@ -157,7 +158,8 @@ model Brand {
   id   Int    @id @default(autoincrement())
   name  String
   logo  String 
-  createdAt DateTime @default(now())
+  createdOn  DateTime @default(now())
+  updatedOn  DateTime @default(now())
 
   //@@map("brands")
 }
