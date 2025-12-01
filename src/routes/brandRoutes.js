@@ -1,26 +1,26 @@
 /* Additional exercise in v4 */
 import { Router } from "express";
-import { createRecord, getRecords, getRecord, updateRecord, deleteRecord } from "../controllers/brandController.js";
+import { createRecordByMariePierreLessard, getRecordsByMariePierreLessard, getRecordByMariePierreLessard, updateRecordByMariePierreLessard, deleteRecordByMariePierreLessard } from "../controllers/brandController.js";
 
-const router = Router();
+const routerByMariePierreLessard = Router();
 
-router.post("/", createRecord);
+routerByMariePierreLessard.post("/", createRecordByMariePierreLessard);
 
-router.get("/", getRecords);
+routerByMariePierreLessard.get("/", getRecordsByMariePierreLessard);
 
 /* Before exercise and codealong in version 4, the code to use was:
-router.get("/:id", (req, res) => {
+routerByMariePierreLessard.get("/:id", (req, res) => {
     const identifier = Number(req.params.id);
     // console.log(req.params.id);
     res.send(`Detaljer for ${identifier}`);
 });
  */
-router.get("/:id", getRecord);
+routerByMariePierreLessard.get("/:id", getRecordByMariePierreLessard);
 
-router.put('/:id', updateRecord);
+routerByMariePierreLessard.put('/:id', updateRecordByMariePierreLessard);
 
-router.delete("/:id", deleteRecord);
+routerByMariePierreLessard.delete("/:id", deleteRecordByMariePierreLessard);
  
-export { router as brandRouter };
+export { routerByMariePierreLessard as brandRouterByMariePierreLessard };
 
 /* Copyright 2025, Marie-Pierre Lessard */

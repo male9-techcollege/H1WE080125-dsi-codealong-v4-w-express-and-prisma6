@@ -1,13 +1,13 @@
 /* Named import from express */
 import { Router } from "express";
-import { createRecord, getRecords, getRecord, updateRecord, deleteRecord } from "../controllers/carController.js";
+import { createRecordByMariePierreLessard, getRecordsByMariePierreLessard, getRecordByMariePierreLessard, updateRecordByMariePierreLessard, deleteRecord } from "../controllers/carController.js";
 
 /* The purpose of the following is to avoid repetition on sites with lots of pages. */
 const router = Router();
 
 /* Since this uses the method POST instead of GET, there is no problem reusing the base URL for cars. 
 (We first learned about GET, but the exercises follow the letters in CRUD.) */
-router.post("/", createRecord);
+router.post("/", createRecordByMariePierreLessard);
 
 /* Up to v3, the codealong said:
 router.get("/", (req, res) => {
@@ -25,7 +25,7 @@ https://moodle.techcollege.dk/course/section.php?id=284745
 */
 
 //Thanks to Express, it is not necessary to include the arguments (req, res) (matching the params in function expression) (unlike in the code in comment above). Express does it for us.
-router.get("/", getRecords);
+router.get("/", getRecordsByMariePierreLessard);
 
 /* Dynamic values: e.g. :id (no dollar sign here) 
 Before exercise and codealong in version 4, the code to use was:
@@ -35,9 +35,9 @@ router.get("/:id", (req, res) => {
     res.send(`Bildetaljer for ${identifier}`);
 });
 */
-router.get("/:id", getRecord);
+router.get("/:id", getRecordByMariePierreLessard);
 
-router.put('/:id', updateRecord);
+router.put('/:id', updateRecordByMariePierreLessard);
 
 router.delete("/:id", deleteRecord);
 

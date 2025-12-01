@@ -1,11 +1,11 @@
 import { prisma } from "../../prisma.js";
 
-export const createRecord = async (req, res) => {
+export const createRecordByMariePierreLessard = async (req, res) => {
     console.log(req.body);
 
-    const { name, logo } = req.body;
+    const { name, logo, createdOn, updatedOn } = req.body;
 
-    if (!name || !logo) {
+    if (!name || !logo || !createdOn || !updatedOn) {
         return res.status(400).json({ error: "Alle felter skal udfyldes." });
     };
 
@@ -13,18 +13,32 @@ export const createRecord = async (req, res) => {
         const data = await prisma.brand.create({
             data: {
                 name,
-                logo
-                /* I left out createdOn and updatedOn. */
+                logo,
+                createdOn: new Date(createdOn),
+                updatedOn: new Date(updatedOn)
             }
         });
+        /* Codealong said: 
         return res.status(201).json(data);
+        */
+
+        const dataWithIdByMariePierreLessard = {
+            id: data.id,
+            name,
+            logo,
+            createdOn,
+            updatedOn
+        };
+        console.log(dataWithIdByMariePierreLessard); //It works.
+        return res.status(201).json(dataWithIdByMariePierreLessard);
+
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Noget gik galt på serveren." });
     };
 };
 
-export const getRecords = async (req, res) => {
+export const getRecordsByMariePierreLessard = async (req, res) => {
     try {
         /* "prisma.car.findMany() bruges til at hente alle rækker fra tabellen Car."
         https://moodle.techcollege.dk/course/section.php?id=282542 */
@@ -47,7 +61,7 @@ export const getRecords = async (req, res) => {
     };
 };
 
-export const getRecord = async (req, res) => {
+export const getRecordByMariePierreLessard = async (req, res) => {
     const id = Number(req.params.id);
 
     if (!id) {
@@ -73,7 +87,7 @@ export const getRecord = async (req, res) => {
     }
 };
 
-export const updateRecord = async (req, res) => {
+export const updateRecordByMariePierreLessard = async (req, res) => {
     // Logger url parametre: console.log(req.params)
     // Logger form body: console.log(req.body)
 
@@ -107,7 +121,7 @@ export const updateRecord = async (req, res) => {
     };
 };
 
-export const deleteRecord = async (req, res) => {
+export const deleteRecordByMariePierreLessard = async (req, res) => {
     //const id = Number(req.params.id)
     //console.log(id);
 

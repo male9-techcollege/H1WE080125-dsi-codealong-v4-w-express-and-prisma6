@@ -18,7 +18,7 @@ https://www.epicweb.dev/what-is-a-superset-in-programming
  * @returns Object
 Source of comment: https://github.com/Webudvikler-TechCollege/H1WE080125-dsi-codealong/blob/main/src/controllers/carController.ts
  */
-export const createRecord = async (req, res) => {
+export const createRecordByMariePierreLessard = async (req, res) => {
     // console.log(1234);
     /* The following works:
     console.log(req.body);
@@ -31,16 +31,20 @@ export const createRecord = async (req, res) => {
     I could have excluded updatedOn for the sake of logic. However, it was good to experiment with dates. There was sth to learn.
     */
     /* The following works after entering the field names under Body > x-www-form-urlencoded in Postman (otherwise, the properties are said to be undefined since there is no request from an actual form):  */
-    const { category, brand, make, model, year, trimLevel, generation, price, fuelType, used, updatedOn } = req.body;
+    const { category, brand, make, model, year, trimLevel, generation, price, fuelType, used, createdOn, updatedOn } = req.body;
     //console.log(category);
 
-    if (!category || !brand || !make || !model || !year || !trimLevel || !generation || !price || !fuelType || !used || !updatedOn) {
+    if (!category || !brand || !make || !model || !year || !trimLevel || !generation || !price || !fuelType || !used || !createdOn || !updatedOn) {
         return res.status(400).json({ error: "Alle felter skal udfyldes." });
     };
 
     try {
         const data = await prisma.car.create({
             data: {
+                /* Adding the field id here hinders the creation of a record in the db and does not help return the id 
+                so that it can be used in some other function. 
+                id,
+                */
                 category,
                 brand,
                 make,
@@ -55,6 +59,7 @@ export const createRecord = async (req, res) => {
                 price: Number(price),
                 fuelType,
                 used: Boolean(used),
+                createdOn: new Date(createdOn),
                 /* Normalisation rules (normal forms)
                 There are rules in database design acc. to which: 
                 - data should not be repeated;
@@ -66,7 +71,51 @@ export const createRecord = async (req, res) => {
                 updatedOn: new Date(updatedOn)
             }
         });
+
+        /* Codealong said: 
+        BUT this does not return the id of the newly created record, only the properties of the data object declared above.
         return res.status(201).json(data);
+        */
+        /* The following doesn't work. Nothing is returned even though a new record is created.
+        return res.status(201).json();
+        */
+        /* Solution:
+        "In Prisma when you're creating a record using the create method it returns the newly created data along with all it's fields as a object. So after creating it you can access the newly created records id from there. (...)
+        Wakil Ahmed (...)
+        const bundleId = bundle.id"
+        https://stackoverflow.com/questions/77653608/using-prisma-how-to-get-the-newly-created-records-idpk
+        */
+
+        /* The following does return the id of the newly created record, but not inside of the data object.
+        data is the key, and the value only contains the fields in the object above. 
+        const dataIdByMariePierreLessard = data.id;
+        console.log(dataIdByMariePierreLessard);
+        const dataWithIdByMariePierreLessard = {
+            dataIdByMariePierreLessard,
+            data
+        };
+        return res.status(201).json(dataWithIdByMariePierreLessard);
+        */
+
+        /* I thought of the following myself instead of data.id as recommended on Stackoverflow. */
+        const dataWithIdByMariePierreLessard = {
+           id: data.id,
+           category,
+           brand,
+           make,
+           model,
+           year,
+           trimLevel,
+           generation,
+           price,
+           fuelType,
+           used,
+           createdOn,
+           updatedOn
+       };
+       console.log(dataWithIdByMariePierreLessard); //It works.
+       return res.status(201).json(dataWithIdByMariePierreLessard);
+
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Noget gik galt på serveren." });
@@ -80,7 +129,7 @@ export const createRecord = async (req, res) => {
  * @returns Array
  Source of comment: https://github.com/Webudvikler-TechCollege/H1WE080125-dsi-codealong/blob/main/src/controllers/carController.ts
  */
-export const getRecords = async (req, res) => {
+export const getRecordsByMariePierreLessard = async (req, res) => {
     try {
         /* "prisma.car.findMany() bruges til at hente alle rækker fra tabellen Car."
         https://moodle.techcollege.dk/course/section.php?id=282542 
@@ -119,7 +168,7 @@ export const getRecords = async (req, res) => {
  * @returns Object
 Source of comment: https://github.com/Webudvikler-TechCollege/H1WE080125-dsi-codealong/blob/main/src/controllers/carController.ts
 */
-export const getRecord = async (req, res) => {
+export const getRecordByMariePierreLessard = async (req, res) => {
     const id = Number(req.params.id);
 
     if (!id) {
@@ -153,7 +202,7 @@ export const getRecord = async (req, res) => {
     }
 };
 
-export const updateRecord = async (req, res) => {
+export const updateRecordByMariePierreLessard = async (req, res) => {
     // Logger url parametre: console.log(req.params)
     // Logger form body: console.log(req.body)
 

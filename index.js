@@ -1,3 +1,5 @@
+/* Teacher's code from codealongs can be found at https://github.com/Webudvikler-TechCollege/H1WE080125-dsi-codealong */
+
 /* See additional useful notes in 1st version codealong */
 
 /* Express is not a built-in Node.js module. It is an optional server framework. 
@@ -22,11 +24,11 @@ The .env file is useful for credentials.
 Source: Moodle, page entitled "DOTENV biblioteket" */
 import dotenv from "dotenv";
 import { carRouter } from "./src/routes/carRoutes.js";
-import { brandRouter } from "./src/routes/brandRoutes.js";
-import { categoryRouter } from "./src/routes/categoryRoutes.js";
-import { legalPagesRouter } from "./src/routes/legalRoutes.js";
-import { dealershipRouter } from "./src/routes/dealershipRoutes.js";
-import { errorRouter } from "./src/routes/errorRoutes.js";
+import { brandRouterByMariePierreLessard } from "./src/routes/brandRoutes.js";
+import { categoryRouterByMariePierreLessard } from "./src/routes/categoryRoutes.js";
+import { legalPagesRouterByMariePierreLessard } from "./src/routes/legalRoutes.js";
+import { dealershipRouterByMariePierreLessard } from "./src/routes/dealershipRoutes.js";
+import { errorRouterByMariePierreLessard } from "./src/routes/errorRoutes.js";
 
 /* Initialiser dotenv config
 Indsæt nedenstående i din index.js fil for at kalde config metoden på dotenv objektet og dermed indlæse .env filens variabler ind i node miljøet:
@@ -35,8 +37,6 @@ https://moodle.techcollege.dk/course/section.php?id=282538
 dotenv.config();
 // console.log(process.env.DATABASE_URL);
 
-/* Maybe TO DO add code from https://github.com/Webudvikler-TechCollege/H1WE080125-dsi-codealong/tree/main (am I still missing stuff?)
-*/
 /* Codealongs v1-v3 said: 
 const port = 4000;
 */
@@ -48,37 +48,43 @@ https://moodle.techcollege.dk/course/section.php?id=282538
 const port = process.env.SERVERPORT || 3000;
  
 /* If I include the following, nodemon crashes. It's because it's CommonJS.
-This declaration was not in the codealong, but in instructions at https://expressjs.com 
+This declaration was not in the codealong, but in instructions at https://expressjs.com (it's commonJs and doesn't work with ES modules) 
 const express = require("express");
 */
-/* This does the same as createServer in v1 of the codealong */
-const serverApp = express();
-serverApp.use(express.urlencoded({ extended: true }));
+/* This does the same as createServer in v1 of the codealong: it initialises Express acc. to "Express Crash Course" by Traversy Media on YouTube at https://m.youtube.com/watch?v=CnH3kAXSrmU */
+const serverAppByMariePierreLessard = express();
+/* urlencoded corresponds to the test method we are taught to use in Postman
+There are other options, which also correspond to other test methods in Postman, e.g.:
+serverAppByMariePierreLessard.use(express.json());
+in order to send raw JSON from Postman.
+see "Express Crash Course" by Traversy Media on YouTube at https://m.youtube.com/watch?v=CnH3kAXSrmU */
+serverAppByMariePierreLessard.use(express.urlencoded({ extended: true }));
 
 /* It's easier to test in the browser with get than with other HTTP-request methods. */
 /* This calls root route with request and response object. 
    "/" is a synonym for root. */
 /* "Ved at bruge metoden get i Express kan vi sætte en listener op for hver enkelt url og definere hvilket svar, serveren skal give de enkelte forespørgsler. Dermed kan vi nemmere håndtere hvilke sider brugerne må og kan se og omvendt. Det kaldes også routing i moderne fagsprog."
 https://moodle.techcollege.dk/course/section.php?id=282537 */
-serverApp.get("/", (request, response) => {
-    /* The following only gets printed to the console or displayed in browser when serverApp is called.
-    To call serverApp, first I have to type nodemon in the console, and then I use CTRL+click on the URL in the terminal. */
+serverAppByMariePierreLessard.get("/", (request, response) => {
+    /* The following only gets printed to the console or displayed in browser when serverAppByMariePierreLessard is called.
+    To call serverAppByMariePierreLessard, first I have to type nodemon in the console, and then I use CTRL+click on the URL in the terminal. */
     response.send("Velkommen til Everride!"); //To see text in browser
     console.log("Velkommen til Everride!"); //To see text in terminal
     // console.log(request); //To see text in terminal
 });
 
 /* On large sites, it is advisable to create JS files for endpoints (routes) in each section, otherwise the list gets very long. 
-The following says that carRouter is called at the endpoint /cars. */
-serverApp.use("/cars", carRouter);
+The following says that carRouter is called at the endpoint /cars. 
+Middleware, like carRouter, is code that gets implemented between "the incoming request and the outgoing response" acc. to "Express Crash Course" by Traversy Media on YouTube at https://m.youtube.com/watch?v=CnH3kAXSrmU */
+serverAppByMariePierreLessard.use("/cars", carRouter);
 /* Additional exercise in v4 */
-serverApp.use("/brands", brandRouter);
-serverApp.use("/categories", categoryRouter);
+serverAppByMariePierreLessard.use("/brands", brandRouterByMariePierreLessard);
+serverAppByMariePierreLessard.use("/categories", categoryRouterByMariePierreLessard);
 
 /* EXERCISE after v3 */
-serverApp.use("/legal", legalPagesRouter);
-serverApp.use("/dealerships", dealershipRouter);
-serverApp.use("/errors", errorRouter);
+serverAppByMariePierreLessard.use("/legal", legalPagesRouterByMariePierreLessard);
+serverAppByMariePierreLessard.use("/dealerships", dealershipRouterByMariePierreLessard);
+serverAppByMariePierreLessard.use("/errors", errorRouterByMariePierreLessard);
 
 /* EXERCISE after v2
 Du må selv bestemme hvilke sider du vil oprette listeners til 
@@ -89,43 +95,43 @@ Se eksempel på
 https://github.com/expressjs/express/blob/master/examples/error-pages/index.js
 (Fundet via https://expressjs.com/en/starter/examples.html)
 
-serverApp.get("/vehicles", (request, response) => {
+serverAppByMariePierreLessard.get("/vehicles", (request, response) => {
     response.send("Dette er siden Biler til salg...");
 });
 
-serverApp.get("/dealerships", (request, response) => {
+serverAppByMariePierreLessard.get("/dealerships", (request, response) => {
     response.send("Dette er siden Afdelinger...");
 });
 
-serverApp.get("/about", (request, response) => {
+serverAppByMariePierreLessard.get("/about", (request, response) => {
     response.send("Dette er siden Om Everride...");
 });
 
-serverApp.get("/contact", (request, response) => {
+serverAppByMariePierreLessard.get("/contact", (request, response) => {
     response.send("Dette er siden Kontakt os...");
 });
 
-serverApp.get("/terms", (request, response) => {
+serverAppByMariePierreLessard.get("/terms", (request, response) => {
     response.send("Dette er siden Handelsbetingelser...");
 });
 
-serverApp.get("/privacy", (request, response) => {
+serverAppByMariePierreLessard.get("/privacy", (request, response) => {
     response.send("Dette er siden Privatlivspolitik...");
 });
 
-serverApp.get("/payment", (request, response) => {
+serverAppByMariePierreLessard.get("/payment", (request, response) => {
     response.send("Dette er siden Betalingsmidler...");
 });
 
-serverApp.get("/delivery", (request, response) => {
+serverAppByMariePierreLessard.get("/delivery", (request, response) => {
     response.send("Dette er siden Levering...");
 });
 
-serverApp.get("/returns", (request, response) => {
+serverAppByMariePierreLessard.get("/returns", (request, response) => {
     response.send("Dette er siden Retur...");
 });
 
-serverApp.get("/warranty", (request, response) => {
+serverAppByMariePierreLessard.get("/warranty", (request, response) => {
     response.send("Dette er siden Garanti og service...");
 });
 */
@@ -139,7 +145,7 @@ when I used CTRL+click on link in the console.
 (Dot instead of a colon)
 http://localhost.${port}
 */
-serverApp.listen(port, () => {
+serverAppByMariePierreLessard.listen(port, () => {
     console.log(`Express-server kører på http://localhost:${port}`);
 });
 
