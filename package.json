@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/Webudvikler-TechCollege/H1WE080125-dsi-codealong.git"
   },
-  "license": "ISC",
+  "license": "MIT",
   "author": "Marie-Pierre Lessard",
   "main": "index.js",
   "type": "module",
